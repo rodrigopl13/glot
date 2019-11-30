@@ -210,3 +210,7 @@ func (plot *Plot) SetFormat(newformat string) error {
 	err := &gnuplotError{fmt.Sprintf("invalid format '%s'", newformat)}
 	return err
 }
+
+func (plot *Plot) SetSize(x, y float64) error{
+	return plot.Cmd(fmt.Sprintf("set size %d, %d", x, y))
+}

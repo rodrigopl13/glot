@@ -152,12 +152,24 @@ func (plot *Plot) plotXYZ(points *PointGroup) error {
 	}
 
 	var line string
-	if points.name == "" {
-		line = fmt.Sprintf("%s \"%s\" with %s", cmd, fname, points.style)
-	} else {
-		line = fmt.Sprintf("%s \"%s\" title \"%s\" with %s",
-			cmd, fname, points.name, points.style)
+	if points.style == "grid" {
+		plot.Cmd("set hidden3d")
+		plot.Cmd("set isosample 40")
+		if points.name == "" {
+			line = fmt.Sprintf("%s \"%s\"", cmd, fname)
+		} else {
+			line = fmt.Sprintf("%s \"%s\" title \"%s\"",
+				cmd, fname, points.name)
+		}
+	}else {
+		if points.name == "" {
+			line = fmt.Sprintf("%s \"%s\" with %s", cmd, fname, points.style)
+		} else {
+			line = fmt.Sprintf("%s \"%s\" title \"%s\" with %s",
+				cmd, fname, points.name, points.style)
+		}
 	}
 	plot.nplots++
+
 	return plot.Cmd(line)
 }
