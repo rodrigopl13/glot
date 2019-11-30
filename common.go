@@ -2,6 +2,7 @@ package glot
 
 import (
 	"fmt"
+	"strconv"
 )
 
 // SetTitle sets the title for the plot
@@ -175,6 +176,10 @@ func (plot *Plot) SavePlot(filename string) (err error) {
 		return &gnuplotError{fmt.Sprintf("This plot has 0 curves and therefore its a redundant plot and it can't be printed.")}
 	}
 	outputFormat := "set terminal " + plot.format
+	if plot.xsize != 0 {
+		outputFormat = "set terminal " + plot.format + " size " + strconv.Itoa(plot.xsize) + ", " + strconv.Itoa(plot.ysize)
+	}
+
 	plot.CheckedCmd(outputFormat)
 	outputFileCommand := "set output" + "'" + filename + "'"
 	plot.CheckedCmd(outputFileCommand)
@@ -211,6 +216,7 @@ func (plot *Plot) SetFormat(newformat string) error {
 	return err
 }
 
-func (plot *Plot) SetSize(x, y float64) error{
-	return plot.Cmd(fmt.Sprintf("set size %d, %d", x, y))
+func (p *Plot) SetPlotSize(x, y int) {
+	p.xsize = x
+	p.ysize = y
 }

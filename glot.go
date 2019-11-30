@@ -33,6 +33,8 @@ type Plot struct {
 	format     string                 // The saving format of the plot. This could be PDF, PNG, JPEG and so on.
 	style      string                 // style of the plot
 	title      string                 // The title of the plot.
+	xsize      int
+	ysize      int
 }
 
 // NewPlot Function makes a new plot with the specified dimensions.
@@ -154,14 +156,14 @@ func (plot *Plot) plotXYZ(points *PointGroup) error {
 	var line string
 	if points.style == "grid" {
 		plot.Cmd("set hidden3d")
-		plot.Cmd("set isosample 40")
+		plot.Cmd("set dgrid3d 50,50 qnorm 2")
 		if points.name == "" {
-			line = fmt.Sprintf("%s \"%s\"", cmd, fname)
+			line = fmt.Sprintf("%s \"%s\" with %s", cmd, fname, "lines")
 		} else {
-			line = fmt.Sprintf("%s \"%s\" title \"%s\"",
-				cmd, fname, points.name)
+			line = fmt.Sprintf("%s \"%s\" title \"%s\" with %s",
+				cmd, fname, points.name, "lines")
 		}
-	}else {
+	} else {
 		if points.name == "" {
 			line = fmt.Sprintf("%s \"%s\" with %s", cmd, fname, points.style)
 		} else {
