@@ -38,7 +38,7 @@ func (plot *Plot) AddPointGroup(name string, style string, data interface{}) (er
 		"impulses", "dots", "bar",
 		"steps", "fill solid", "histogram", "circle",
 		"errorbars", "boxerrorbars",
-		"boxes", "lp"}
+		"boxes", "lp", "grid"}
 	curve.style = defaultStyle
 	discovered := 0
 	for _, s := range allowed {
